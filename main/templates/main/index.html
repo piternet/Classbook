@@ -5,8 +5,15 @@
 	<meta charset="utf-8">
 </head>
 <body>
-	<h1> Strona główna </h1>
-	<p> Witaj na stronie {{ app_name }}!</p>
-
+	<h1> Najnowsze posty na naszej stronie </h1>
+	<div id="posts">
+		{% for post in posts %}
+			<div class="post">
+				<h2>{{ post.title }}</h2>
+				<h4> Opublikowany {{ post.publish_date }} przez {{ post.user.username }} </h4>
+				<p> {{ post.content }} </p>
+			</div>
+		{% endfor %}
+	</div>
 </body>
 </html>
