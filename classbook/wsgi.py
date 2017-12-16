@@ -1,5 +1,5 @@
 """
-WSGI config for classbook project.
+WSGI config for Classbook project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
