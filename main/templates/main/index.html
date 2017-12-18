@@ -7,6 +7,19 @@
 <body>
 	<div id="navbar">
 		<h2>Classbook</h2>
+		{% if user.is_authenticated %}
+			<p> Witaj, {{ user.username }}! </p>
+		{% endif %}
+		<div id="menu">
+			<ul>
+				{% if not user.is_authenticated %}
+					<li><a href="{% url 'login' %}">Zaloguj się</a></li>
+					<li><a href="{% url 'signup' %}">Zarejestruj się</a></li>
+				{% else %}
+					<li><a href="{% url 'logout' %}">Wyloguj się</a></li>
+				{% endif %}
+			</ul>
+		</div>
 	</div>
 	<h1> Najnowsze posty na naszej stronie </h1>
 	<div id="posts">

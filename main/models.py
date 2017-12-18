@@ -11,6 +11,9 @@ class Comment(models.Model):
 	user = models.ForeignKey(User)
 	date = models.DateField() # DateTimeField(auto_now_add=True)
 	content = models.CharField(max_length=300)
+
+	def __str__(self):
+		return self.content[:50]
 	
 class Post(models.Model):
 	title = models.CharField(max_length=150)

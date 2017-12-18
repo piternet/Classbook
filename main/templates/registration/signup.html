@@ -1,0 +1,11 @@
+<h2>Rejestracja</h2>
+
+<!-- <style type="text/css">
+	.helptext, form ul {display: none;}
+</style> -->
+
+<form method="POST">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<button type="submit">Zarejestruj się</button>
+</form>
