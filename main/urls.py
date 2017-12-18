@@ -6,6 +6,7 @@ from . import views
 
 urlpatterns = [
 	url(r'^$', views.index, name='index'),
+	url(r'^tag/(?P<name>\w+)/$', views.tag_view, name="tag_view"),
 	url(r'^login/$', login, name='login'),
 	url(r'^logout/$', logout, name='logout'),
 	url(r'^signup/$', views.signup, name='signup')

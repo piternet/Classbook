@@ -13,6 +13,12 @@ def index(request):
 	}
 	return render(request, 'main/index.html', context)
 
+def tag_view(request, name):
+	# PRACA DOMOWA:
+	# napisac ten widok tak, zeby wyswietlal wszystkie posty, ktore sa otagowane tym tagiem
+	# trzeba skorzystac z Post.objects.filter(tags__name=name)
+	return HttpResponse("Wszedles w tag o nazwie: " + name)
+
 def signup(request):
 	if request.method == 'POST':
 		form = UserCreationForm(request.POST)
@@ -28,3 +34,4 @@ def signup(request):
 		"form": form
 	}
 	return render(request, 'registration/signup.html', context)
+
