@@ -19,6 +19,10 @@ def tag_view(request, name):
 	# trzeba skorzystac z Post.objects.filter(tags__name=name)
 	return HttpResponse("Wszedles w tag o nazwie: " + name)
 
+# PRACA DOMOWA 2:
+# analogicznie do tag_view napisac user_view
+# urls, views, templates
+
 def signup(request):
 	if request.method == 'POST':
 		form = UserCreationForm(request.POST)
