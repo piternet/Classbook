@@ -4,6 +4,7 @@ from .models import Post
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
+from django.db import models
 
 # Create your views here.
 def index(request):
@@ -17,11 +18,24 @@ def tag_view(request, name):
 	# PRACA DOMOWA:
 	# napisac ten widok tak, zeby wyswietlal wszystkie posty, ktore sa otagowane tym tagiem
 	# trzeba skorzystac z Post.objects.filter(tags__name=name)
-	return HttpResponse("Wszedles w tag o nazwie: " + name)
-
+	posts = Post.objects.filter(tags__name=name)
+	context = {
+		"name": name,
+		"posts": posts
+	}
+	return render(request, 'search/tag_view.html', context)
 # PRACA DOMOWA 2:
 # analogicznie do tag_view napisac user_view
 # urls, views, templates
+
+def user_view(request, name):
+	user = User.objects.get(username=name)
+	posts = Post.objects.filter(user=user)
+	context = {
+		"username": name,
+		"posts": posts
+	}
+	return render(request, 'main/user_view.html', context)
 
 def signup(request):
 	if request.method == 'POST':
