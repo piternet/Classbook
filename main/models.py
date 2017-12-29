@@ -9,7 +9,7 @@ class Tag(models.Model):
 		return self.name
 
 class Comment(models.Model):
-	user = models.ForeignKey(User)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	date = models.DateField(default=datetime.now) # DateTimeField(auto_now_add=True)
 	content = models.CharField(max_length=300)
 
@@ -21,7 +21,7 @@ class Post(models.Model):
 	content = models.CharField(max_length=10000)
 	publish_date = models.DateField(default=datetime.now) # DateTimeField(auto_now_add=True)
 #	edit_date = models.DateTimeField(auto_now=True)
-	user = models.ForeignKey(User)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	tags = models.ManyToManyField(Tag)
 	comments = models.ManyToManyField(Comment)
 

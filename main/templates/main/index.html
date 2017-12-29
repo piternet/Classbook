@@ -23,6 +23,13 @@
 		</div>
 	</div>
 	<h1> Najnowsze posty na naszej stronie </h1>
+	<div id="add_new_post">
+		<form method="POST">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<button type="submit">Dodaj</button>
+		</form>
+	</div>
 	<div id="posts">
 		{% for post in posts %}
 			<div class="post">
