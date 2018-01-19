@@ -51,7 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'Classbook.urls'
+ROOT_URLCONF = 'classbook.urls'
 
 TEMPLATES = [
     {
@@ -69,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Classbook.wsgi.application'
+WSGI_APPLICATION = 'classbook.wsgi.application'
 
 
 # Database

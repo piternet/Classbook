@@ -1,7 +1,15 @@
-<h2>Logowanie</h2>
+{% extends 'main/base.html' %}
 
-<form method="POST">
-	{% csrf_token %}
-	{{ form.as_p }}
-	<button type="submit">Zaloguj się</button>
-</form>
+{% block title %}
+	Logowanie
+{% endblock %}
+
+{% block content %}
+	<h2>Logowanie</h2>
+
+	<form method="POST">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button type="submit">Zaloguj się</button>
+	</form>
+{% endblock %}

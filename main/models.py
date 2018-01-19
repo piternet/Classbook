@@ -30,3 +30,15 @@ class Post(models.Model):
 
 	class Meta:
 		ordering = ['-publish_date', 'title']
+
+class School(models.Model):
+	name = models.CharField(max_length=256)
+
+class Class(models.Model):
+	grade = models.IntegerField()
+	name = models.CharField(max_length=1)
+	school = models.ForeignKey(School, on_delete=models.CASCADE)
+
+class Student(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	studentClass = models.ForeignKey(Class, on_delete=models.SET_NULL, null=True)
