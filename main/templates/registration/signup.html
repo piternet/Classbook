@@ -1,11 +1,19 @@
-<h2>Rejestracja</h2>
+{% extends 'main/base.html' %}
 
-<!-- <style type="text/css">
-	.helptext, form ul {display: none;}
-</style> -->
+{% block title %}
+	Logowanie
+{% endblock %}
 
-<form method="POST">
-	{% csrf_token %}
-	{{ form.as_p }}
-	<button type="submit">Zarejestruj się</button>
-</form>
+{% block content %}
+	<h2>Rejestracja</h2>
+
+ 	<!--<style type="text/css">
+		.helptext, form ul {display: none;}
+	</style> -->
+
+	<form method="POST">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button type="submit">Zarejestruj się</button>
+	</form>
+{% endblock %}
