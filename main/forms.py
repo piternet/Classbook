@@ -6,7 +6,8 @@ class PostForm(forms.ModelForm):
 		model = Post
 		fields = ['title', 'content', 'tags']
 		widgets = {
-			'content': forms.Textarea(attrs={'cols': 30, 'rows': 10})
+			'title': forms.Textarea(attrs={'cols': 50, 'rows': 1, 'placeholder': 'Jak zatytułujesz swój post?'}),
+			'content': forms.Textarea(attrs={'cols': 50, 'rows': 6, 'placeholder': 'Cześć, co u ciebie słychać? Podziel się tym z nami.'})
 		}
 		labels = {
 			'title': 'Tytuł',

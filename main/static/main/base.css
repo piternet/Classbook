@@ -1,0 +1,17 @@
+body {
+	background-color: #f8f9fa;
+}
+
+#add_new_post, #menu {
+	margin-top: 20px;
+}
+
+#add_new_post, .post {
+	background-color: white;
+	padding: 10px;
+	margin-bottom: 20px;
+}
+
+#add_new_post .form-group {
+	margin-bottom: 0px;
+}
