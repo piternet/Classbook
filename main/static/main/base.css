@@ -15,3 +15,11 @@ body {
 #add_new_post .form-group {
 	margin-bottom: 0px;
 }
+
+.post-photo {
+	max-width: 530px;
+}
+
+.post-title {
+	word-wrap: break-word;
+}

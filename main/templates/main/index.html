@@ -10,10 +10,16 @@
 
 {% block content %}
 	<div id="add_new_post" class="">
-		
+		{% if messages %}
+			<div>
+				{% for message in messages %}
+					<p>{{ message }}</p>
+				{% endfor %}
+			</div>
+		{% endif %}
 		<div><h4>Utwórz post</h4></div>
 		<div>
-			<form method="POST">
+			<form method="POST" enctype="multipart/form-data">
 				{% csrf_token %}
 				{% for field in form %}
 				<div class="form-group">
@@ -27,10 +33,13 @@
 		<div id="posts">
 			{% for post in posts %}
 				<div class="post">
-					<h2> {{ post.title }} </h2>
+					<h2 class="post-title"> {{ post.title }} </h2>
 					<a href="{% url 'user_view' post.user.username %}"><h4> {{ post.user.username }} </h4></a>
 					<p> {{ post.content }} </p>
-					<h4> Opublikowany {{ post.publish_date|naturalday }} </h4>
+					{% if post.photo %}
+						<p> <img class="post-photo" src="{{ post.photo.url|slice:'4:' }}" alt="Zdjęcie"> </p>
+					{% endif %}
+					<p> Opublikowany {{ post.publish_date|naturalday }} </p>
 	<!--
 					{% if post.publish_date != post.edit_date %}
 						<h4> Ostatnio edytowany {{ post.edit_date }} </h4>

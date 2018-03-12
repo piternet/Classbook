@@ -1,36 +1,32 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Post
 from .forms import PostForm
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.db import models
 from datetime import datetime
 
-# TODO:
-# 1. dodawanie nowch komentarzy do postow:
-	# - albo nowy widok albo w indexie przy postach
-	# - formularz w forms.py
-	# pamietaj zeby w jakis sposb wiedziec do ktorego tagu dodajesz komentarz
-	# post.comments.add(comment)
-# 2. dodawnie nowych tagow
-	# - w menu link dodaj nowy tag
-	# - mozliwosc dodanai prez uzytkownikow nowych tagow
-
 def index(request):
 	if request.method == 'POST':
-		form = PostForm(request.POST)
+		form = PostForm(request.POST, request.FILES)
 		if form.is_valid():
 			post = form.save(commit=False)
 			post.user = request.user
+			if form.cleaned_data['photo']:
+				post.photo = form.cleaned_data['photo']
 			post.publish_date = datetime.now()
 			post.save()
 			tags = form.cleaned_data['tags']
 			for tag in tags:
 				post.tags.add(tag)
 			post.save()
-			return HttpResponseRedirect('/')
+			return redirect('index')
+		else:
+			messages.add_message(request, messages.ERROR, 'Błąd w formularzu. Proszę spróbowac jeszcze raz.')
+			return redirect('index')
 	form = PostForm()
 	posts = Post.objects.all()
 	context = {

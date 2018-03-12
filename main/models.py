@@ -24,6 +24,7 @@ class Post(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	tags = models.ManyToManyField(Tag)
 	comments = models.ManyToManyField(Comment)
+	photo = models.ImageField(upload_to='main/static/main/imgs/', blank=True, null=True)
 
 	def __str__(self):
 		return "Tytul: " + self.title + ", Tresc: " + self.content
