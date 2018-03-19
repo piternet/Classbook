@@ -42,4 +42,6 @@ class Class(models.Model):
 
 class Student(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	studentClass = models.ForeignKey(Class, on_delete=models.SET_NULL, null=True)
+	studentClass = models.ForeignKey(Class, on_delete=models.SET_NULL, blank=True, null=True)
+	avatar = models.ImageField(upload_to='main/static/main/avatars/', blank=True, null=True)
+	description = models.CharField(max_length=1024, blank=True, null=True)

@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block header %}
-	{% load humanize %}
+	
 {% endblock %}
 
 {% block content %}
@@ -14,17 +14,7 @@
 	</div>
 	<div id="posts">
 		{% for post in posts %}
-			<div class="post">
-				<h2> {{ post.title }} </h2>
-				<h4> {{ post.user.username }} </h4>
-				<p> {{ post.content|truncatewords:20 }} </p>
-				<h4> Opublikowany {{ post.publish_date|naturalday }} </h4>
-<!--
-				{% if post.publish_date != post.edit_date %}
-					<h4> Ostatnio edytowany {{ post.edit_date }} </h4>
-				{% endif %}
--->
-			</div>
+			{% include 'main/post.html' %}
 		{% endfor %}
 	</div>
 {% endblock %}

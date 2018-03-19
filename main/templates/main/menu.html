@@ -1,4 +1,5 @@
 {% load static %}
+{% load student %}
 <link rel="stylesheet" type="text/css" href="{% static 'main/menu.css' %}">
 
 <div id="menu-sidebar">
@@ -21,16 +22,16 @@
 <div class="profile-sidebar">
 				<!-- SIDEBAR USERPIC -->
 				<div class="profile-userpic">
-					<img src="http://keenthemes.com/preview/metronic/theme/assets/admin/pages/media/profile/profile_user.jpg" class="img-responsive" alt="">
+					<img src="{% get_student_avatar user %}" alt="avatar" />
 				</div>
 				<!-- END SIDEBAR USERPIC -->
 				<!-- SIDEBAR USER TITLE -->
 				<div class="profile-usertitle">
 					<div class="profile-usertitle-name">
-						Marcus Doe
+						{{ user.username }}
 					</div>
 					<div class="profile-usertitle-job">
-						Developer
+						{% get_student_description user %}
 					</div>
 				</div>
 				<!-- END SIDEBAR USER TITLE -->
@@ -43,25 +44,15 @@
 				<!-- SIDEBAR MENU -->
 				<div class="profile-usermenu">
 					<ul class="nav">
-						<li class="active">
-							<a href="#">
+						<li>
+							<a href="{% url 'edit_profile' %}">
 							<i class="glyphicon glyphicon-home"></i>
-							Overview </a>
+							Edytuj profil </a>
 						</li>
 						<li>
 							<a href="#">
 							<i class="glyphicon glyphicon-user"></i>
 							Account Settings </a>
-						</li>
-						<li>
-							<a href="#" target="_blank">
-							<i class="glyphicon glyphicon-ok"></i>
-							Tasks </a>
-						</li>
-						<li>
-							<a href="#">
-							<i class="glyphicon glyphicon-flag"></i>
-							Help </a>
 						</li>
 					</ul>
 				</div>

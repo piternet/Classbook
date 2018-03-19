@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block header %}
-	{% load humanize %}
+	
 {% endblock %}
 
 {% block content %}
@@ -32,33 +32,7 @@
 	</div>
 		<div id="posts">
 			{% for post in posts %}
-				<div class="post">
-					<h2 class="post-title"> {{ post.title }} </h2>
-					<a href="{% url 'user_view' post.user.username %}"><h4> {{ post.user.username }} </h4></a>
-					<p> {{ post.content }} </p>
-					{% if post.photo %}
-						<p> <img class="post-photo" src="{{ post.photo.url|slice:'4:' }}" alt="Zdjęcie"> </p>
-					{% endif %}
-					<p> Opublikowany {{ post.publish_date|naturalday }} </p>
-	<!--
-					{% if post.publish_date != post.edit_date %}
-						<h4> Ostatnio edytowany {{ post.edit_date }} </h4>
-					{% endif %}
-	-->
-					<p> Tagi: </p>
-					{% for tag in post.tags.all %}
-						<div class="tag">
-							<p> <a href="{% url 'tag_view' tag.name %}">{{ tag }}</a> </p>
-						</div>
-					{% endfor %}
-					{% for comment in post.comments.all %}
-						<div class="comment">
-							<a href="{% url 'user_view' comment.user.username %}"><h4> {{ comment.user.username }} </h4></a>
-							<p> {{ comment.content }} </p>
-							<h6> {{ comment.date|naturalday }} </h6>
-						</div>
-					{% endfor %}
-				</div>
+				{% include 'main/post.html' %}
 			{% endfor %}
 	</div>
 {% endblock %}

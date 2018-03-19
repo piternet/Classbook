@@ -23,3 +23,9 @@ body {
 .post-title {
 	word-wrap: break-word;
 }
+
+.white {
+	background-color: white;
+	margin-top: 20px;
+	padding: 10px;
+}

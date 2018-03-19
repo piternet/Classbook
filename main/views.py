@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Post
-from .forms import PostForm
+from .models import Post, Student
+from .forms import PostForm, StudentForm
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.db import models
+from django.db.models.signals import post_save
 from datetime import datetime
 
 def index(request):
@@ -53,6 +54,25 @@ def user_view(request, name):
 	}
 	return render(request, 'main/user_view.html', context)
 
+def edit_profile(request):
+	student = Student.objects.get(user=request.user)
+	if request.method == 'POST':
+		form = StudentForm(request.POST, request.FILES)
+		if form.is_valid():
+			student.avatar = form.cleaned_data['avatar']
+			student.description = form.cleaned_data['description']
+			student.save()
+			return redirect('edit_profile')
+
+	form = StudentForm(initial={
+		'description': student.description,
+		'avatar': student.avatar
+	})
+	context = {
+		'form': form
+	}
+	return render(request, 'main/edit_profile.html', context)
+
 def signup(request):
 	if request.method == 'POST':
 		form = UserCreationForm(request.POST)
@@ -69,3 +89,11 @@ def signup(request):
 	}
 	return render(request, 'registration/signup.html', context)
 
+def create_profile(sender, **kwargs):
+	user = kwargs['instance']
+	if kwargs['created']:
+		student = Student(user=user)
+		student.save()
+
+
+post_save.connect(create_profile, sender=User)
