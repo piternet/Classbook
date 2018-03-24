@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Student
+from .models import Post, Profile, School, Class
 
 class PostForm(forms.ModelForm):
 	class Meta:
@@ -16,9 +16,9 @@ class PostForm(forms.ModelForm):
 			'tags': 'Tagi'
 		}
 
-class StudentForm(forms.ModelForm):
+class ProfileForm(forms.ModelForm):
 	class Meta:
-		model = Student
+		model = Profile
 		fields = ['description', 'avatar']
 		widgets = {
 			'description': forms.Textarea(attrs={'cols': 50, 'rows': 1})
@@ -26,3 +26,22 @@ class StudentForm(forms.ModelForm):
 		labels = {
 			'description': 'Opis'
 		}
+
+class SignupForm(forms.Form):
+	username = forms.CharField(max_length=256, label="Nazwa użytkownika")
+	email = forms.CharField(max_length=256, label="Adres email")
+	password1 = forms.CharField(widget=forms.PasswordInput, label="Hasło")
+	password2 = forms.CharField(widget=forms.PasswordInput, label="Powtórz hasło")
+	status = forms.ChoiceField(choices=(('student', 'Uczeń'), ('teacher', 'Nauczyciel'), ('boss', 'Dyrektor')))
+	school = forms.ModelChoiceField(queryset=School.objects.all(), label="Szkoła")
+
+	def is_valid(self):
+		valid = super(SignupForm, self).is_valid()
+		if not valid:
+			return False
+
+		# if self.password1 != self.password2:
+		# 	self._errors['invalid_password'] = 'Hasła się nie zgadzają'
+		# 	return False
+
+		return True
