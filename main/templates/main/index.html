@@ -5,11 +5,12 @@
 {% endblock %}
 
 {% block header %}
+	{% load profile %}
 	
 {% endblock %}
 
 {% block content %}
-	<div id="add_new_post" class="">
+	<div id="add_new_post" class="white">
 		{% if messages %}
 			<div>
 				{% for message in messages %}
@@ -17,17 +18,27 @@
 				{% endfor %}
 			</div>
 		{% endif %}
-		<div><h4>Utwórz post</h4></div>
 		<div>
-			<form method="POST" enctype="multipart/form-data">
-				{% csrf_token %}
-				{% for field in form %}
-				<div class="form-group">
-					{{ field }}
-				</div>
-				{% endfor %}
-				<button type="button submit" class="btn btn-primary">Dodaj</button>
-			</form>
+			<h4>Utwórz post</h4>
+			<div>
+				<form method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					{% for field in form %}
+					<div class="form-group">
+						{{ field }}
+					</div>
+					{% endfor %}
+					<button type="button submit" class="btn btn-primary">Dodaj</button>
+					
+				</form>
+<!-- 				<div class="post-class-info">
+
+						<p>Dodajesz post do klasy {% get_student_class user %}.</p>
+
+						<p>Dodajesz post publiczny.</p>
+
+				</div> -->
+			</div>
 		</div>
 	</div>
 		<div id="posts">

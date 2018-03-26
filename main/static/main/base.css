@@ -6,7 +6,7 @@ body {
 	margin-top: 20px;
 }
 
-#add_new_post, .post {
+.post {
 	background-color: white;
 	padding: 10px;
 	margin-bottom: 20px;
@@ -28,8 +28,13 @@ body {
 	background-color: white;
 	margin-top: 20px;
 	padding: 10px;
+	padding-bottom: 20px;
 }
 
 .button-register {
 	margin-top: 15px;
+}
+
+.post-class-info {
+	float: right;
 }

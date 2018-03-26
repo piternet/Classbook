@@ -1,5 +1,5 @@
 from django import template
-from main.models import Profile
+from main.models import Profile, Student
 
 register = template.Library()
 
@@ -18,3 +18,12 @@ def get_profile_avatar(user):
 		return avatar.url[4:]
 	else:
 		return '/static/main/avatars/default.png'
+
+@register.simple_tag
+def is_student(user):
+	return Student.objects.get(profile=Profile.objects.get(user=user)).exists()
+
+@register.simple_tag
+def get_student_class(user):
+	return Student.objects.get(profile=Profile.objects.get(user=user)).studentClass
+

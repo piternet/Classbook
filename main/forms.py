@@ -27,6 +27,10 @@ class ProfileForm(forms.ModelForm):
 			'description': 'Opis'
 		}
 
+class ClassInfoForm(forms.Form):
+	school = forms.ModelChoiceField(queryset=School.objects.all(), label="Szkoła", disabled=True)
+	studentClass = forms.ModelChoiceField(queryset=Class.objects.all(), label="Klasa")
+
 class SignupForm(forms.Form):
 	username = forms.CharField(max_length=256, label="Nazwa użytkownika")
 	email = forms.CharField(max_length=256, label="Adres email")

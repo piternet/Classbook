@@ -14,7 +14,7 @@ class Class(models.Model):
 	school = models.ForeignKey(School, on_delete=models.CASCADE)
 
 	def __str__(self):
-		return str(self.grade) + self.name + " w szkole " + self.school.name
+		return str(self.grade) + self.name # + " w szkole " + self.school.name
 
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
