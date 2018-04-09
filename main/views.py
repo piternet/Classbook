@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Post, Profile, Student, School, Class
+from .models import Post, Profile, Student, School, Class, Teacher
 from .forms import PostForm, ProfileForm, SignupForm, ClassInfoForm
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -11,7 +11,7 @@ from django.db.models.signals import post_save
 from datetime import datetime
 
 def welcome_screen(request):
-	if request.user.is_authenticated():
+	if request.user.is_authenticated:
 		return redirect('index')
 	return render(request, 'main/welcome_screen.html')
 
@@ -25,6 +25,14 @@ def index(request):
 			if form.cleaned_data['photo']:
 				post.photo = form.cleaned_data['photo']
 			post.publish_date = datetime.now()
+			profile = Profile.objects.get(user=request.user)
+			if profile.is_student():
+				student = Student.objects.get(profile=profile)
+				post.postClass = student.studentClass
+				post.school = student.school
+			if profile.is_student():
+				teacher = Teacher.objects.get(profile=profile)
+				post.school = teacher.school
 			post.save()
 			tags = form.cleaned_data['tags']
 			for tag in tags:

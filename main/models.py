@@ -24,10 +24,23 @@ class Profile(models.Model):
 	def __str__(self):
 		return self.user.username
 
+	def is_student(self):
+		return Student.objects.filter(profile=self).exists()
+
+	def is_teacher(self):
+		return Teacher.objects.filter(profile=self).exists()
+
 class Student(models.Model):
 	profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
 	school =  models.ForeignKey(School, on_delete=models.SET_NULL, blank=True, null=True)
 	studentClass = models.ForeignKey(Class, on_delete=models.SET_NULL, blank=True, null=True)
+
+	def __str__(self):
+		return self.profile.user.username + " w szkole " + self.school.name
+
+class Teacher(models.Model):
+	profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
+	school =  models.ForeignKey(School, on_delete=models.SET_NULL, blank=True, null=True)
 
 	def __str__(self):
 		return self.profile.user.username + " w szkole " + self.school.name
@@ -49,15 +62,15 @@ class Comment(models.Model):
 class Post(models.Model):
 	title = models.CharField(max_length=150)
 	content = models.CharField(max_length=10000)
-	publish_date = models.DateField(default=datetime.now) # DateTimeField(auto_now_add=True)
+	publish_date = models.DateTimeField(default=datetime.now)
 #	edit_date = models.DateTimeField(auto_now=True)
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	tags = models.ManyToManyField(Tag)
 	comments = models.ManyToManyField(Comment)
 	photo = models.ImageField(upload_to='main/static/main/imgs/', blank=True, null=True)
 
-	school = models.ForeignKey(School, null=True, blank=True)
-	postClass = models.ForeignKey(Class, null=True, blank=True)
+	school = models.ForeignKey(School, on_delete=models.CASCADE, null=True, blank=True)
+	postClass = models.ForeignKey(Class, on_delete=models.CASCADE, null=True, blank=True)
 
 	def __str__(self):
 		return "Tytul: " + self.title + ", Tresc: " + self.content
