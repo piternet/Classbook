@@ -1,5 +1,8 @@
 from django import forms
 from .models import Post, Profile, School, Class
+from django.contrib.auth import (
+	authenticate, get_user_model, password_validation,
+)
 
 class PostForm(forms.ModelForm):
 	class Meta:
@@ -39,13 +42,23 @@ class SignupForm(forms.Form):
 	status = forms.ChoiceField(choices=(('student', 'Uczeń'), ('teacher', 'Nauczyciel'), ('boss', 'Dyrektor')))
 	school = forms.ModelChoiceField(queryset=School.objects.all(), label="Szkoła")
 
+	error_messages = {
+		'password_mismatch': "Hasła nie zgadzają się.",
+	}
+
 	def is_valid(self):
 		valid = super(SignupForm, self).is_valid()
 		if not valid:
 			return False
 
-		# if self.password1 != self.password2:
-		# 	self._errors['invalid_password'] = 'Hasła się nie zgadzają'
-		# 	return False
+		password1 = self.cleaned_data['password1']
+		password2 = self.cleaned_data['password2']
+
+		if password1 and password2 and password1 != password2:
+			raise forms.ValidationError(
+				self.error_messages['password_mismatch'],
+				code='password_mismatch',
+			)
+			return False
 
 		return True

@@ -36,6 +36,28 @@ body {
 	margin-top: 15px;
 }
 
+
 .post-class-info {
-	float: right;
+	position: relative;
+	left: 80%;
+}
+
+.post-class-info, .post-class-info p {
+	margin: 0;
+	padding: 0;
+}
+
+.post-class-add-info {
+	position: relative;
+	left: 65%;
+}
+
+.post-class-add-info, .post-class-add-info p {
+	margin: 0;
+	padding: 0;
+}
+
+
+#posts {
+	margin-top: 20px;
 }

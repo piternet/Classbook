@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Post, Profile, Student, School, Class, Teacher
 from .forms import PostForm, ProfileForm, SignupForm, ClassInfoForm
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
@@ -13,7 +15,7 @@ from datetime import datetime
 def welcome_screen(request):
 	if request.user.is_authenticated:
 		return redirect('index')
-	return render(request, 'main/welcome_screen.html')
+	return render(request, 'main/welcome/index.html')
 
 @login_required(login_url='/')
 def index(request):
@@ -30,7 +32,7 @@ def index(request):
 				student = Student.objects.get(profile=profile)
 				post.postClass = student.studentClass
 				post.school = student.school
-			if profile.is_student():
+			if profile.is_teacher():
 				teacher = Teacher.objects.get(profile=profile)
 				post.school = teacher.school
 			post.save()
@@ -49,6 +51,19 @@ def index(request):
 		'form': form
 	}
 	return render(request, 'main/index.html', context)
+
+@login_required(login_url='/')
+def class_posts(request):
+	profile = Profile.objects.get(user=request.user)
+	if profile.is_student():
+		student = Student.objects.get(profile=profile)
+		posts = Post.objects.filter(postClass=student.studentClass)
+	if profile.is_teacher():
+		posts = Post.objects.all() # TODO - nauczyciel moglby miec ManyToManyField klas
+	context = {
+		'posts': posts,
+	}
+	return render(request, 'main/class_posts.html', context)
 
 @login_required(login_url='/')
 def tag_view(request, name):
@@ -75,8 +90,10 @@ def edit_profile(request):
 	if request.method == 'POST':
 		form = ProfileForm(request.POST, request.FILES)
 		if form.is_valid():
-			profile.avatar = form.cleaned_data['avatar']
-			profile.description = form.cleaned_data['description']
+			if form.cleaned_data['avatar']:
+				profile.avatar = form.cleaned_data['avatar']
+			if form.cleaned_data['description']:
+				profile.description = form.cleaned_data['description']
 			profile.save()
 			return redirect('edit_profile')
 
@@ -111,6 +128,22 @@ def edit_class(request):
 	}
 	return render(request, 'main/edit_class.html', context)
 
+def change_password(request):
+	if request.method == 'POST':
+		form = PasswordChangeForm(request.user, request.POST)
+		if form.is_valid():
+			user = form.save()
+			update_session_auth_hash(request, user)  # Important!
+			messages.success(request, 'Your password was successfully updated!')
+			return redirect('change_password')
+		else:
+			messages.error(request, 'Please correct the error below.')
+	else:
+		form = PasswordChangeForm(request.user)
+	return render(request, 'accounts/change_password.html', {
+		'form': form
+	})
+
 def signup(request):
 	if request.method == 'POST':
 		form = SignupForm(request.POST)
@@ -131,6 +164,8 @@ def signup(request):
 
 			login(request, user)
 			return redirect('index')
+		else:
+			return redirect('signup')
 	form = SignupForm()
 	context = {
 		"form": form

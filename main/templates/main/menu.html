@@ -5,16 +5,10 @@
 <div id="menu-sidebar">
 		<ul class="nav flex-column">
 	  <li class="nav-item">
-	    <a class="nav-link active" href="#">Strona główna</a>
+	    <a class="nav-link active" href="{% url 'index' %}">Strona główna</a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link" href="#">Cośtam</a>
-	  </li>
-	  <li class="nav-item">
-	    <a class="nav-link" href="#">Link</a>
-	  </li>
-	  <li class="nav-item">
-	    <a class="nav-link disabled" href="#">Disabled</a>
+	    <a class="nav-link" href="{% url 'class_posts' %}">Posty z klasy</a>
 	  </li>
 	</ul>
 </div>
@@ -50,6 +44,11 @@
 						<a href="{% url 'edit_profile' %}">
 						<i class="glyphicon glyphicon-home"></i>
 						Edycja profilu </a>
+					</li>
+					<li>
+						<a href="{% url 'change_password' %}">
+						<i class="glyphicon glyphicon-home"></i>
+						Zmiana hasła </a>
 					</li>
 					<li>
 						<a href="{% url 'edit_class' %}">
