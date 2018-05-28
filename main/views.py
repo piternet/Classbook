@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Post, Profile, Student, School, Class, Teacher
+from .models import Post, Profile, Student, School, Class, Teacher, Message, Conversation
 from .forms import PostForm, ProfileForm, SignupForm, ClassInfoForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import models
 from django.db.models.signals import post_save
 from datetime import datetime
+from itertools import chain
 
 def welcome_screen(request):
 	if request.user.is_authenticated:
@@ -80,8 +81,10 @@ def user_view(request, name):
 	posts = Post.objects.filter(user=user)
 	context = {
 		"username": name,
-		"posts": posts
+		"posts": posts,
+		"view_name": request.resolver_match.view_name
 	}
+
 	return render(request, 'main/user_view.html', context)
 
 @login_required(login_url='/')
@@ -128,6 +131,19 @@ def edit_class(request):
 	}
 	return render(request, 'main/edit_class.html', context)
 
+
+@login_required(login_url='/')
+def get_conversations(request):
+	conversations = list(chain(
+		Conversation.objects.filter(user1=request.user), 
+		Conversation.objects.filter(user2=request.user)
+	))
+	context = {
+		"conversations": conversations
+	}
+	return render(request, 'main/conversations.html', context)
+
+@login_required(login_url='/')
 def change_password(request):
 	if request.method == 'POST':
 		form = PasswordChangeForm(request.user, request.POST)
@@ -164,8 +180,6 @@ def signup(request):
 
 			login(request, user)
 			return redirect('index')
-		else:
-			return redirect('signup')
 	form = SignupForm()
 	context = {
 		"form": form

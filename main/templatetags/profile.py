@@ -1,5 +1,6 @@
 from django import template
 from main.models import Profile, Student
+from django.contrib.auth.models import User
 
 register = template.Library()
 
@@ -8,12 +9,29 @@ def get_profile(user):
 	return Profile.objects.get(user=user)
 
 @register.simple_tag
-def get_profile_description(user):
-	return Profile.objects.get(user=user).description
+def get_username(user, view_name, username):
+	if view_name:
+		return username
+	else:
+		return user.username
 
 @register.simple_tag
-def get_profile_avatar(user):
-	avatar = Profile.objects.get(user=user).avatar
+def get_profile_description(user, view_name, username):
+	if view_name:
+		description = Profile.objects.get(user=User.objects.get(username=username)).description
+	else:
+		description = Profile.objects.get(user=user).description
+	if description:
+		return description
+	else:
+		return ""
+
+@register.simple_tag
+def get_profile_avatar(user, view_name, username):
+	if view_name:
+		avatar = Profile.objects.get(user=User.objects.get(username=username)).avatar
+	else:
+		avatar = Profile.objects.get(user=user).avatar
 	if avatar:
 		return avatar.url[4:]
 	else:
@@ -32,7 +50,7 @@ def get_user_post_type(user):
 	if user.is_superuser:
 		return "publiczny"
 	elif get_student_class(user) == None:
-		return " - nie jesteś w żadnej klasie, najpierw wybierz klasę!"
+		return " - najpierw wybierz klasę!"
 	else:
 		return "do klasy " + str(get_student_class(user))
 

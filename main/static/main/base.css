@@ -49,7 +49,7 @@ body {
 
 .post-class-add-info {
 	position: relative;
-	left: 65%;
+	right: -65%;
 }
 
 .post-class-add-info, .post-class-add-info p {
@@ -58,6 +58,10 @@ body {
 }
 
 
-#posts {
+#posts, #about {
 	margin-top: 20px;
+}
+
+#id_tags {
+	margin-top: 5px;
 }

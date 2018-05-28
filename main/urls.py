@@ -12,6 +12,7 @@ urlpatterns = [
 	url(r'^user/(?P<name>\w+)/$', views.user_view, name="user_view"),
 	url(r'^edit_profile/$', views.edit_profile, name="edit_profile"),
 	url(r'^edit_class/$', views.edit_class, name="edit_class"),
+	url(r'^conversations/$', views.get_conversations, name="get_conversations"),
 	url(r'^login/$', login, name='login'),
 	url(r'^logout/$', logout, name='logout'),
 	url(r'^signup/$', views.signup, name='signup'),

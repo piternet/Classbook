@@ -11,6 +11,13 @@
 	<form class="form-horizontal" method="post">{% csrf_token %}
 		<fieldset>
 			<legend>{{ title }}</legend>
+			{% if form.subject.errors %}
+			    <ol>
+			    {% for error in form.subject.errors %}
+			        <li><strong>{{ error|escape }}</strong></li>
+			    {% endfor %}
+			    </ol>
+			{% endif %}
 			{% for field in form %}
 				{% if field.errors %}
 					<div class="control-group error">
@@ -25,9 +32,7 @@
 					<div class="control-group">
 						<label class="control-label">{{ field.label }}</label> 
 						<div class="controls">{{ field }}
-							{% if field.help_text %}
-								<p class="help-inline"><small>{{ field.help_text }}</small></p>
-							{% endif %}
+							
 						</div>
 					</div>
 				{% endif %}

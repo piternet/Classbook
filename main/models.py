@@ -78,3 +78,12 @@ class Post(models.Model):
 	class Meta:
 		ordering = ['-publish_date', 'title']
 
+class Message(models.Model):
+	date = models.DateTimeField(default=datetime.now)
+	content = models.CharField(max_length=10000)
+
+class Conversation(models.Model):
+	user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user1")
+	user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user2")
+	messages = models.ManyToManyField(Message)
+

@@ -1,5 +1,7 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from .models import Post, Profile, School, Class
+from django.contrib.auth.models import User
 from django.contrib.auth import (
 	authenticate, get_user_model, password_validation,
 )
@@ -34,11 +36,11 @@ class ClassInfoForm(forms.Form):
 	school = forms.ModelChoiceField(queryset=School.objects.all(), label="Szkoła", disabled=True)
 	studentClass = forms.ModelChoiceField(queryset=Class.objects.all(), label="Klasa")
 
-class SignupForm(forms.Form):
-	username = forms.CharField(max_length=256, label="Nazwa użytkownika")
-	email = forms.CharField(max_length=256, label="Adres email")
-	password1 = forms.CharField(widget=forms.PasswordInput, label="Hasło")
-	password2 = forms.CharField(widget=forms.PasswordInput, label="Powtórz hasło")
+class SignupForm(UserCreationForm):
+	# username = forms.CharField(max_length=256, label="Nazwa użytkownika")
+	# email = forms.CharField(max_length=256, label="Adres email")
+	# password1 = forms.CharField(widget=forms.PasswordInput, label="Hasło")
+	# password2 = forms.CharField(widget=forms.PasswordInput, label="Powtórz hasło")
 	status = forms.ChoiceField(choices=(('student', 'Uczeń'), ('teacher', 'Nauczyciel'), ('boss', 'Dyrektor')))
 	school = forms.ModelChoiceField(queryset=School.objects.all(), label="Szkoła")
 
@@ -46,19 +48,23 @@ class SignupForm(forms.Form):
 		'password_mismatch': "Hasła nie zgadzają się.",
 	}
 
-	def is_valid(self):
-		valid = super(SignupForm, self).is_valid()
-		if not valid:
-			return False
+	class Meta:
+		model = User
+		fields = ('username', 'email', 'password1', 'password2')
 
-		password1 = self.cleaned_data['password1']
-		password2 = self.cleaned_data['password2']
+	# def is_valid(self):
+	# 	valid = super(SignupForm, self).is_valid()
+	# 	if not valid:
+	# 		return False
 
-		if password1 and password2 and password1 != password2:
-			raise forms.ValidationError(
-				self.error_messages['password_mismatch'],
-				code='password_mismatch',
-			)
-			return False
+	# 	password1 = self.cleaned_data['password1']
+	# 	password2 = self.cleaned_data['password2']
 
-		return True
+	# 	if password1 and password2 and password1 != password2:
+	# 		raise forms.ValidationError(
+	# 			self.error_messages['password_mismatch'],
+	# 			code='password_mismatch',
+	# 		)
+	# 		return False
+
+	# 	return True
