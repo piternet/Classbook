@@ -150,10 +150,10 @@ def get_conversations(request):
 			conversation.messages.add(new_message)
 			return redirect('get_conversations')
 
-	conversations = list(chain(
+	conversations = list(set(list(chain(
 		Conversation.objects.filter(user1=request.user), 
 		Conversation.objects.filter(user2=request.user)
-	))
+	))))
 	form = ConversationForm()
 	context = {
 		"conversations": conversations,
