@@ -1,0 +1,40 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+	Widok konwersacji
+{% endblock %}
+
+{% block header %}
+	{% load profile %}
+	{% load humanize %}
+	
+{% endblock %}
+
+{% block content %}
+	<div id="about" class="post">
+		<h1>Konwersacja z {% get_conversation_username conversation user %} </h1>
+	</div>
+	<div id="posts">
+		{% for message in conversation.messages.all %}
+			<div class="post">
+				{% if user == message.sender %}
+					<p class="right">{{ message.content }}</p>
+				{% else %}
+					<p class="left">{{ message.content }}</p>
+				{% endif %}
+				<p class="right date">
+					{{ message.date | naturalday }}
+				</p>
+			</div>
+		{% endfor %}
+	</div>
+
+	<div class="post">
+		<form method="POST">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<button type="submit" class="btn btn-primary">Wyślij</button>
+		</form>
+	</div>
+
+{% endblock %}

@@ -5,9 +5,31 @@
 {% endblock %}
 
 {% block header %}
+	{% load profile %}
 	
 {% endblock %}
 
 {% block content %}
-	
+	<div id="about" class="post">
+		<h1>Twoje konwersacje</h1>
+	</div>
+	<div id="posts">
+		{% for conversation in conversations %}
+			<div class="post">
+				<h2 class="post-title"> <a href="{% url 'conversation_view' conversation.id %}">Konwersacja z {% get_conversation_username conversation user %}</a> </h2>
+				<p>
+					<b>Ostatnia wiadomość: </b>{{ conversation.messages.last.content }}
+				</p>
+			</div>
+		{% endfor %}
+	</div>
+
+	<div class="post">
+		<h3>Rozpocznij nową konwersację</h3>
+		<form method="POST">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<button type="submit" class="btn btn-primary">Dodaj</button>
+		</form>
+	</div>
 {% endblock %}

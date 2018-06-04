@@ -65,3 +65,13 @@ body {
 #id_tags {
 	margin-top: 5px;
 }
+
+.right {
+	text-align: right;
+}
+
+.date {
+	color: gray;
+	font-size: 75%;
+	margin: 0;
+}

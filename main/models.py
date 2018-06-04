@@ -81,9 +81,22 @@ class Post(models.Model):
 class Message(models.Model):
 	date = models.DateTimeField(default=datetime.now)
 	content = models.CharField(max_length=10000)
+	sender = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
 class Conversation(models.Model):
 	user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user1")
 	user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user2")
-	messages = models.ManyToManyField(Message)
+	messages = models.ManyToManyField(Message, null=True, blank=True)
 
+	def __str__(self):
+		return self.user1.username + " vs " + self.user2.username
+
+	@staticmethod
+	def exists(user1, user2):
+		exists1 = Conversation.objects.filter(user1=user1, user2=user2).exists()
+		exists2 = Conversation.objects.filter(user1=user2, user2=user1).exists()
+		if exists1:
+			return Conversation.objects.get(user1=user1, user2=user2)
+		if exists2:
+			return Conversation.objects.get(user1=user2, user2=user1)
+		return None

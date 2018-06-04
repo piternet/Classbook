@@ -62,3 +62,10 @@ def get_post_class(post):
 		return "ze szkoły " + str(post.school)
 	else:
 		return "z klasy " + str(post.postClass)
+
+@register.simple_tag
+def get_conversation_username(conversation, user):
+	if conversation.user1 == user:
+		return conversation.user2.username
+	else:
+		return conversation.user1.username

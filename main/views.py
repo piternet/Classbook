@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Post, Profile, Student, School, Class, Teacher, Message, Conversation
-from .forms import PostForm, ProfileForm, SignupForm, ClassInfoForm
+from .forms import PostForm, ProfileForm, SignupForm, ClassInfoForm, ConversationForm, MessageForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
@@ -134,14 +134,51 @@ def edit_class(request):
 
 @login_required(login_url='/')
 def get_conversations(request):
+	if request.method == 'POST':
+		form = ConversationForm(request.POST)
+		if form.is_valid():
+			user = form.cleaned_data['user']
+			new_message_content = form.cleaned_data['new_message']
+			new_message = Message(content=new_message_content, sender=request.user)
+			new_message.save()
+
+			conversation = Conversation.exists(request.user, user)
+			if not conversation:
+				conversation = Conversation(user1=request.user, user2=user)
+				conversation.save()
+
+			conversation.messages.add(new_message)
+			return redirect('get_conversations')
+
 	conversations = list(chain(
 		Conversation.objects.filter(user1=request.user), 
 		Conversation.objects.filter(user2=request.user)
 	))
+	form = ConversationForm()
 	context = {
-		"conversations": conversations
+		"conversations": conversations,
+		"form": form
 	}
 	return render(request, 'main/conversations.html', context)
+
+@login_required(login_url='/')
+def conversation_view(request, id):
+	conversation = Conversation.objects.get(id=int(id))
+	if request.method == 'POST':
+		form = MessageForm(request.POST)
+		if form.is_valid():
+			new_message_content = form.cleaned_data['new_message']
+			new_message = Message(content=new_message_content, sender=request.user)
+			new_message.save()
+
+			conversation.messages.add(new_message)
+			return redirect('conversation_view', id)
+	form = MessageForm()
+	context = {
+		"conversation": conversation,
+		"form": form
+	}
+	return render(request, 'main/conversation_view.html', context)
 
 @login_required(login_url='/')
 def change_password(request):

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import Post, Profile, School, Class
+from .models import Post, Profile, School, Class, Conversation, Message
 from django.contrib.auth.models import User
 from django.contrib.auth import (
 	authenticate, get_user_model, password_validation,
@@ -68,3 +68,13 @@ class SignupForm(UserCreationForm):
 	# 		return False
 
 	# 	return True
+
+class ConversationForm(forms.Form):
+	user = forms.ModelChoiceField(queryset=User.objects.all(), label="Nazwa użytkownika")
+	new_message = forms.CharField(max_length=256, label="", widget=forms.Textarea(attrs=
+		{'cols': 50, 'rows': 3, 'placeholder': 'Treść twojej nowej wiadomości'}))
+
+
+class MessageForm(forms.Form):
+	new_message = forms.CharField(max_length=256, label="", widget=forms.Textarea(attrs=
+		{'cols': 50, 'rows': 3, 'placeholder': 'Treść twojej nowej wiadomości'}))

@@ -13,6 +13,7 @@ urlpatterns = [
 	url(r'^edit_profile/$', views.edit_profile, name="edit_profile"),
 	url(r'^edit_class/$', views.edit_class, name="edit_class"),
 	url(r'^conversations/$', views.get_conversations, name="get_conversations"),
+	url(r'^conversation/(?P<id>\d+)/$', views.conversation_view, name="conversation_view"),
 	url(r'^login/$', login, name='login'),
 	url(r'^logout/$', logout, name='logout'),
 	url(r'^signup/$', views.signup, name='signup'),
