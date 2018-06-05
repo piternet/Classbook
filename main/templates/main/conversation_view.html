@@ -16,16 +16,25 @@
 	</div>
 	<div id="posts">
 		{% for message in conversation.messages.all %}
-			<div class="post">
-				{% if user == message.sender %}
+			{% if request.user == message.sender %}
+				<div class="col-md-6">
+				</div>
+				<div class="col-md-6 post">
 					<p class="right">{{ message.content }}</p>
-				{% else %}
+					<p class="left date">
+						{{ message.date | naturalday }}
+					</p>
+				</div>
+			{% else %}
+				<div class="col-md-6 post">
 					<p class="left">{{ message.content }}</p>
-				{% endif %}
-				<p class="right date">
-					{{ message.date | naturalday }}
-				</p>
-			</div>
+					<p class="right date">
+						{{ message.date | naturalday }}
+					</p>
+				</div>
+				<div class="col-md-6">
+				</div>
+			{% endif %}
 		{% endfor %}
 	</div>
 

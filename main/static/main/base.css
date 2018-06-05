@@ -70,8 +70,19 @@ body {
 	text-align: right;
 }
 
+.left {
+	text-align: left;
+}
+
 .date {
-	color: gray;
+	color: lightgray;
 	font-size: 75%;
 	margin: 0;
+}
+
+.avatar {
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
 }

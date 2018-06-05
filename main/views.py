@@ -79,10 +79,19 @@ def tag_view(request, name):
 def user_view(request, name):
 	user = User.objects.get(username=name)
 	posts = Post.objects.filter(user=user)
+	chat_exists = Conversation.exists(request.user, user)
+	if not chat_exists:
+		chat = None
+	elif chat_exists.user1 == request.user:
+		chat =  Conversation.objects.get(user1 = request.user, user2 = user)
+	else:
+		chat =  Conversation.objects.get(user1 = user, user2 = request.user)
 	context = {
 		"username": name,
 		"posts": posts,
-		"view_name": request.resolver_match.view_name
+		"view_name": request.resolver_match.view_name,
+		"chat":  chat,
+		"chat_exists": chat_exists
 	}
 
 	return render(request, 'main/user_view.html', context)

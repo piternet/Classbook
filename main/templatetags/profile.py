@@ -27,7 +27,7 @@ def get_profile_description(user, view_name, username):
 		return ""
 
 @register.simple_tag
-def get_profile_avatar(user, view_name, username):
+def get_profile_avatar(user, view_name = 0, username = 0):
 	if view_name:
 		avatar = Profile.objects.get(user=User.objects.get(username=username)).avatar
 	else:
