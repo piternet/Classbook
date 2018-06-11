@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Post, Profile, Student, School, Class, Teacher, Message, Conversation
+from .models import Post, Profile, Student, School, Class, Teacher, Message, Conversation, Comment
 from .forms import PostForm, ProfileForm, SignupForm, ClassInfoForm, ConversationForm, MessageForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
@@ -12,6 +12,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from datetime import datetime
 from itertools import chain
+from django.db.models import Q
 
 def welcome_screen(request):
 	if request.user.is_authenticated:
@@ -188,6 +189,38 @@ def conversation_view(request, id):
 		"form": form
 	}
 	return render(request, 'main/conversation_view.html', context)
+
+@login_required(login_url='/')
+def add_new_comment(request):
+	if request.method == 'POST':
+		post = Post.objects.get(id=int(request.POST['post_id']))
+		content = request.POST['comment_content']
+		comment = Comment(user=request.user, content=content)
+		comment.save()
+		post.comments.add(comment)
+		post.save()
+		print(post)
+		return redirect('index')
+	return redirect('index')
+
+@login_required(login_url='/')
+def search_view(request):
+	if request.method == 'POST':
+		search_text = request.POST['search_text']
+		queryset_list, phrases = [], search_text.split(' ')
+		for phrase in phrases:
+			queryset_list.append(Post.objects.filter(Q(content__icontains = phrase) | Q(title__icontains = phrase)))
+
+		posts = list(set(list(chain(*queryset_list))))
+		posts.sort(
+			reverse=True,
+			key=lambda post : sum([1 for phrase in phrases if post.content.count(phrase) + post.title.count(phrase) > 0])
+		)
+		context = {
+			'posts': posts
+		}
+		return render(request, 'main/search.html', context)
+	return redirect('index')
 
 @login_required(login_url='/')
 def change_password(request):

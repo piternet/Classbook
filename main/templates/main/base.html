@@ -27,8 +27,9 @@
 			</button>
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<form class="form-inline my-2 my-lg-0">
-					<input class="form-control mr-sm-2" type="search" placeholder="Szukaj" aria-label="Search">
+				<form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'search_view' %}">
+					{% csrf_token %}
+					<input class="form-control mr-sm-2" name="search_text" type="search" placeholder="Szukaj" aria-label="Search">
 					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Szukaj</button>
 				</form>
 				<ul class="navbar-nav navbar-right ml-auto">

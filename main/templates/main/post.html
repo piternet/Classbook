@@ -14,7 +14,7 @@
 	{% endif %}
 -->
 	<div class="post-class-info">
-		<p>Post {% get_post_class post %}</p>
+		Post {% get_post_class post %}
 	</div>
 
 	<p> Tagi: </p>
@@ -24,12 +24,28 @@
 			<p> <a href="{% url 'tag_view' tag.name %}">{{ tag }}</a> </p>
 		</div>
 	{% endfor %}
-	{% for comment in post.comments.all %}
-		<div class="comment">
-			<a href="{% url 'user_view' comment.user.username %}"><h4> {{ comment.user.username }} </h4></a>
-			<p> {{ comment.content }} </p>
-			<h6> {{ comment.date|naturalday }} </h6>
-		</div>
-	{% endfor %}
+
+	{% if post.comments.all %}
+		<p> Komentarze: </p>
+		{% for comment in post.comments.all %}
+			<div class="comment">
+				<a href="{% url 'user_view' comment.user.username %}"><h4> {{ comment.user.username }} </h4></a>
+				<p> {{ comment.content }} </p>
+				<h6> {{ comment.date|naturalday }} </h6>
+			</div>
+		{% endfor %}
+	{% endif %}
+
+	<div>
+		<p> Dodaj nowy komentarz: </p>
+		<form method="POST" action="{% url 'add_new_comment' %}">
+			{% csrf_token %}
+			<input type="hidden" name="post_id" value="{{ post.id }}" />
+			<div class="form-group">
+						<textarea name="comment_content" cols="50" rows="1" placeholder="Cześć, co napiszesz w komentarzu?" maxlength="10000" required="" id="id_comment_content"></textarea>
+			</div>
+			<button type="button submit" class="btn btn-primary">Dodaj</button>
+		</form>
+	</div>
 	
 </div>

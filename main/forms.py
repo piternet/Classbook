@@ -82,14 +82,10 @@ class MessageForm(forms.Form):
 class CommentForm(forms.ModelForm):
 	class Meta:
 		model = Comment
-		fields = ['title', 'content', 'photo', 'tags']
+		fields = ['content']
 		widgets = {
-			'title': forms.Textarea(attrs={'cols': 50, 'rows': 1, 'placeholder': 'Jak zatytułujesz swój post?'}),
-			'content': forms.Textarea(attrs={'cols': 50, 'rows': 6, 'placeholder': 'Cześć, co u ciebie słychać? Podziel się tym z nami.'})
+			'content': forms.Textarea(attrs={'cols': 50, 'rows': 6, 'placeholder': 'Treść twojego komentarza: ...'})
 		}
 		labels = {
-			'title': 'Tytuł',
 			'content': 'Zawartość',
-			'photo': 'Wybierz zdjęcie (opcjonalnie)',
-			'tags': 'Tagi'
 		}
