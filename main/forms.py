@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import Post, Profile, School, Class, Conversation, Message
+from .models import Post, Profile, School, Class, Conversation, Message, Comment
 from django.contrib.auth.models import User
 from django.contrib.auth import (
 	authenticate, get_user_model, password_validation,
@@ -78,3 +78,18 @@ class ConversationForm(forms.Form):
 class MessageForm(forms.Form):
 	new_message = forms.CharField(max_length=256, label="", widget=forms.Textarea(attrs=
 		{'cols': 50, 'rows': 3, 'placeholder': 'Treść twojej nowej wiadomości'}))
+	
+class CommentForm(forms.ModelForm):
+	class Meta:
+		model = Comment
+		fields = ['title', 'content', 'photo', 'tags']
+		widgets = {
+			'title': forms.Textarea(attrs={'cols': 50, 'rows': 1, 'placeholder': 'Jak zatytułujesz swój post?'}),
+			'content': forms.Textarea(attrs={'cols': 50, 'rows': 6, 'placeholder': 'Cześć, co u ciebie słychać? Podziel się tym z nami.'})
+		}
+		labels = {
+			'title': 'Tytuł',
+			'content': 'Zawartość',
+			'photo': 'Wybierz zdjęcie (opcjonalnie)',
+			'tags': 'Tagi'
+		}

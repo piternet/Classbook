@@ -13,6 +13,9 @@
 		<h4> Ostatnio edytowany {{ post.edit_date }} </h4>
 	{% endif %}
 -->
+	<div class="post-class-info">
+		<p>Post {% get_post_class post %}</p>
+	</div>
 
 	<p> Tagi: </p>
 
@@ -21,9 +24,6 @@
 			<p> <a href="{% url 'tag_view' tag.name %}">{{ tag }}</a> </p>
 		</div>
 	{% endfor %}
-	<div class="post-class-info">
-		<p>Post {% get_post_class post %}</p>
-	</div>
 	{% for comment in post.comments.all %}
 		<div class="comment">
 			<a href="{% url 'user_view' comment.user.username %}"><h4> {{ comment.user.username }} </h4></a>

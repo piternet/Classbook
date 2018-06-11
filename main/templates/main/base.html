@@ -32,14 +32,16 @@
 					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Szukaj</button>
 				</form>
 				<ul class="navbar-nav navbar-right ml-auto">
+					{% if request.user.is_authenticated %}
 					<li class="nav-item profile-userpic-small">
-						<a class="nav-link" href="{% url 'logout' %}">
-							<img class="avatar" src="{% get_profile_avatar user%}" />
+						<a class="nav-link" href="{% url 'user_view' request.user.username %}">
+							<img class="avatar" src="{% get_profile_avatar request.user %}" />
 						</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="{% url 'logout' %}">Wyloguj się</a>
 					</li>
+					{% endif %}
 				</ul>
 
 			</div>

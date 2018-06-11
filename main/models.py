@@ -81,7 +81,11 @@ class Post(models.Model):
 class Message(models.Model):
 	date = models.DateTimeField(default=datetime.now)
 	content = models.CharField(max_length=10000)
-	sender = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+	sender = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="sender")
+#	receiver = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="receiver")
+
+	class Meta:
+		ordering = ['-date']
 
 class Conversation(models.Model):
 	user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user1")
