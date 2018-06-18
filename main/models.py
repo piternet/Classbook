@@ -85,7 +85,7 @@ class Message(models.Model):
 #	receiver = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="receiver")
 
 	class Meta:
-		ordering = ['-date']
+		ordering = ['date']
 
 class Conversation(models.Model):
 	user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user1")

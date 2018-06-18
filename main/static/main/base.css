@@ -8,6 +8,7 @@ body {
 }
 
 .post {
+	position: relative;
 	background-color: white;
 	padding: 10px;
 	margin-bottom: 20px;
@@ -38,8 +39,9 @@ body {
 
 
 .post-class-info {
-	position: relative;
-	left: 80%;
+/*	position: relative;*/
+	left: 100%;
+	margin-left: 20px;
 }
 
 .post-class-info, .post-class-info p {
@@ -86,3 +88,16 @@ body {
     height: 30px;
     border-radius: 50%;
 }
+
+/*
+.float-right {
+	float: right;
+	clear: both;
+	border: 10px solid transparent;
+}
+
+.float-left {
+	float: left;
+	clear: both;
+	border: 10px solid transparent;
+}*/

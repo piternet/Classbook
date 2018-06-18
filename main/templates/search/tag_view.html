@@ -1,27 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Posty z tagiem {{ name }}</title>
-	<meta charset="utf-8">
+{% extends 'main/base.html' %}
+
+{% block title %}
+	Znalezione posty
+{% endblock %}
+
+{% block header %}
+	{% load profile %}
 	{% load humanize %}
-</head>
-<body>
-	<div id="navbar">
-		<a href = "{% url 'index' %}"><h2>Classbook</h2></a>
-		{% if user.is_authenticated %}
-			<p> Witaj, {{ user.username }}! </p>
-		{% endif %}
-		<div id="menu">
-			<ul>
-				{% if not user.is_authenticated %}
-					<li><a href="{% url 'login' %}">Zaloguj się</a></li>
-					<li><a href="{% url 'signup' %}">Zarejestruj się</a></li>
-				{% else %}
-					<li><a href="{% url 'logout' %}">Wyloguj się</a></li>
-				{% endif %}
-			</ul>
-		</div>
-	</div>
+	
+{% endblock %}
+
+{% block content %}
 	<div id="posts">
 		{% for post in posts %}
 			<div class="post">
@@ -37,5 +26,4 @@
 			</div>
 		{% endfor %}
 	</div>
-</body>
-</html>
+{% endblock %}

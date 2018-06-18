@@ -108,7 +108,7 @@ def edit_profile(request):
 			if form.cleaned_data['description']:
 				profile.description = form.cleaned_data['description']
 			profile.save()
-			return redirect('edit_profile')
+			return redirect('index')
 
 	form = ProfileForm(initial={
 		'description': profile.description,
@@ -129,7 +129,7 @@ def edit_class(request):
 		#if form.is_valid():
 		student.studentClass = Class.objects.get(pk=form.data['studentClass'])
 		student.save()
-		return redirect('edit_class')
+		return redirect('index')
 
 	form = ClassInfoForm(initial={
 		'school': student.school,

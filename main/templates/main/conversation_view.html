@@ -17,18 +17,14 @@
 	<div id="posts">
 		{% for message in conversation.messages.all %}
 			{% if request.user == message.sender %}
-				<div class="col-md-6 post">
+				<div class="col-md-12 post">
 					<p class="left">{{ message.content }}</p>
 					<p class="right date">
 						{{ message.date | naturalday }}
 					</p>
 				</div>
-				<div class="col-md-6">
-				</div>
 			{% else %}
-				<div class="col-md-6">
-				</div>
-				<div class="col-md-6 post">
+				<div class="col-md-12 post">
 					<p class="right">{{ message.content }}</p>
 					<p class="left date">
 						{{ message.date | naturalday }}
