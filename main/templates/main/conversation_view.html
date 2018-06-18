@@ -7,12 +7,16 @@
 {% block header %}
 	{% load profile %}
 	{% load humanize %}
+	{% load static %}
+	<script src="{% static 'main/js/conversation.js' %}"></script>
 	
 {% endblock %}
 
 {% block content %}
+<div id="vue">
 	<div id="about" class="post">
 		<h1>Konwersacja z {% get_conversation_username conversation user %} </h1>
+		[[ message ]]
 	</div>
 	<div id="posts">
 		{% for message in conversation.messages.all %}
@@ -41,5 +45,5 @@
 			<button type="submit" class="btn btn-primary">Wyślij</button>
 		</form>
 	</div>
-
+</div>
 {% endblock %}

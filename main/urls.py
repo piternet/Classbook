@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib.auth.views import login, logout
 
 from . import views
@@ -20,4 +20,5 @@ urlpatterns = [
 	url(r'^logout/$', logout, name='logout'),
 	url(r'^signup/$', views.signup, name='signup'),
 	url(r'^change_password/$', views.change_password, name='change_password'),
+	url(r'^api/', include('api.urls')),
 ]
